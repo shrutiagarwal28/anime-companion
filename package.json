@@ -1,6 +1,7 @@
 {
   "name": "anime-companion",
   "displayName": "Anime Companion",
+  "publisher": "shruti",
   "description": "An animated anime girl that lives in your sidebar and reacts to git events",
   "version": "0.1.0",
   "engines": {
