@@ -1,0 +1,53 @@
+{
+  "name": "anime-companion",
+  "displayName": "Anime Companion",
+  "description": "An animated anime girl that lives in your sidebar and reacts to git events",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "anime-companion-container",
+          "title": "Anime Companion",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "anime-companion-container": [
+        {
+          "type": "webview",
+          "id": "animeCompanion.companionView",
+          "name": "Companion"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Anime Companion",
+      "properties": {
+        "animeCompanion.modelUrl": {
+          "type": "string",
+          "default": "https://cdn.jsdelivr.net/gh/iCharlesZ/vscode-live2d-models/models/haru/haru_greeter_t03.model.json",
+          "description": "URL to the Live2D model JSON. See README for alternatives."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node --minify",
+    "watch": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node --sourcemap --watch"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "esbuild": "^0.20.0",
+    "typescript": "^5.3.0"
+  }
+}
