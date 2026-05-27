@@ -17,7 +17,7 @@ interface GitExtension {
   getAPI(version: 1): GitAPI;
 }
 
-type CompanionEvent = "commit" | "push" | "conflict" | "idle";
+type CompanionEvent = "typing" | "commit" | "push" | "conflict" | "idle";
 
 class CompanionViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = "animeCompanion.companionView";
@@ -58,7 +58,10 @@ class CompanionViewProvider implements vscode.WebviewViewProvider {
       vscode.Uri.joinPath(this._extensionUri, "media", "idle.gif")
     );
     const actionUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "media", "action.gif")
+      vscode.Uri.joinPath(this._extensionUri, "media", "type-action.gif")
+    );
+    const celebrateUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "media", "commit-action.gif")
     );
 
     return `<!DOCTYPE html>
@@ -95,16 +98,20 @@ class CompanionViewProvider implements vscode.WebviewViewProvider {
 
   <script>
     const img       = document.getElementById('companion');
-    const idleSrc   = ${JSON.stringify(idleUri.toString())};
-    const actionSrc = ${JSON.stringify(actionUri.toString())};
+    const idleSrc     = ${JSON.stringify(idleUri.toString())};
+    const actionSrc   = ${JSON.stringify(actionUri.toString())};
+    const celebrateSrc = ${JSON.stringify(celebrateUri.toString())};
 
     let returnTimer = null;
 
-    function playAction() {
-      // Switch to action GIF immediately
+    function playTyping() {
       img.src = actionSrc;
+      clearTimeout(returnTimer);
+      returnTimer = setTimeout(() => { img.src = idleSrc; }, 4000);
+    }
 
-      // Return to idle after 4 seconds — enough for most short GIF loops
+    function playCelebrate() {
+      img.src = celebrateSrc;
       clearTimeout(returnTimer);
       returnTimer = setTimeout(() => { img.src = idleSrc; }, 4000);
     }
@@ -120,8 +127,11 @@ class CompanionViewProvider implements vscode.WebviewViewProvider {
       console.log('[companion] message received', msg);
       if (!msg || !msg.type) return;
 
+      if (msg.type === 'typing') {
+        playTyping();
+      }
       if (msg.type === 'commit' || msg.type === 'push') {
-        playAction();
+        playCelebrate();
       }
       if (msg.type === 'conflict' || msg.type === 'idle') {
         clearTimeout(returnTimer);
@@ -231,6 +241,16 @@ export function activate(context: vscode.ExtensionContext): void {
   );
 
   context.subscriptions.push(registration);
+
+  // Debounce typing: play action GIF on keystroke, return to idle after 4s of silence
+  let typingTimer: ReturnType<typeof setTimeout> | undefined;
+  const typingDisposable = vscode.workspace.onDidChangeTextDocument(() => {
+    provider.postEvent("typing");
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(() => provider.postEvent("idle"), 4000);
+  });
+  context.subscriptions.push(typingDisposable);
+
   wireGitEvents(provider, context);
 }
 

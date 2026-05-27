@@ -1,24 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+  <!-- Hair -->
+  <path d="M7 8 Q7 3 12 4 Q17 3 17 8 Q19 10 18 13 Q17 9 17 8 Q17 8 7 8 Q7 9 6 13 Q5 10 7 8Z"/>
   <!-- Head -->
-  <circle cx="12" cy="9" r="5" fill="#f9a8d4" stroke="#ec4899" stroke-width="0.8"/>
-  <!-- Eyes -->
-  <ellipse cx="10" cy="8.5" rx="1" ry="1.2" fill="#1e1b4b"/>
-  <ellipse cx="14" cy="8.5" rx="1" ry="1.2" fill="#1e1b4b"/>
-  <!-- Eye shine -->
-  <circle cx="10.4" cy="8" r="0.3" fill="white"/>
-  <circle cx="14.4" cy="8" r="0.3" fill="white"/>
-  <!-- Blush -->
-  <ellipse cx="9" cy="10" rx="1.2" ry="0.6" fill="#f472b6" opacity="0.5"/>
-  <ellipse cx="15" cy="10" rx="1.2" ry="0.6" fill="#f472b6" opacity="0.5"/>
-  <!-- Smile -->
-  <path d="M10.5 11 Q12 12.2 13.5 11" stroke="#be185d" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-  <!-- Hair top -->
-  <path d="M7 8 Q7 3 12 4 Q17 3 17 8" fill="#a78bfa" stroke="#7c3aed" stroke-width="0.5"/>
-  <!-- Hair side -->
-  <path d="M7 8 Q5 10 6 13" stroke="#7c3aed" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <path d="M17 8 Q19 10 18 13" stroke="#7c3aed" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <!-- Body -->
-  <path d="M9 14 Q7 16 7 21 L17 21 Q17 16 15 14 Q13.5 15 12 15 Q10.5 15 9 14Z" fill="#818cf8"/>
-  <!-- Collar -->
-  <path d="M10 14 L12 17 L14 14" stroke="white" stroke-width="0.8" fill="none" stroke-linejoin="round"/>
+  <circle cx="12" cy="10" r="5"/>
+  <!-- Eyes (cut out via background) -->
 </svg>
